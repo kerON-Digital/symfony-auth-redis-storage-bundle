@@ -1,8 +1,31 @@
 {
     "name": "keron-digital/auth-redis-storage-bundle",
-    "description": "Bundle to manage storage of authentication tokens (refresh, etc.) in Redis for Symfony applications.",
+    "description": "Redis-backed storage solution for Symfony applications to manage token lifecycles. Provides services for blacklisting invalidated tokens and tracking currently active tokens via their unique IDs (JTI, UUID)",
     "license": "MIT",
     "type": "symfony-bundle",
+    "keywords": [
+        "symfony",
+        "bundle",
+        "redis",
+        "authentication",
+        "security",
+        "token",
+        "jwt",
+        "jti",
+        "blacklist",
+        "session",
+        "stateless"
+    ],
+    "authors": [
+        {
+            "name": "Keron Digital",
+            "email": "kerondigital.developing@gmail.com"
+        },
+        {
+            "name": "Alvaro Miguel Lorente",
+            "email": "a.miguel.lorente@gmail.com"
+        }
+    ],
     "require": {
         "php": ">=8.1",
         "ext-redis": "*",
@@ -37,5 +60,23 @@
             "ergebnis/composer-normalize": true,
             "phpstan/extension-installer": true
         }
+    },
+    "scripts": {
+        "analyse": "phpstan analyse --error-format=github --no-progress",
+        "check-all": [
+            "@composer validate --strict",
+            "@composer audit",
+            "@normalize --dry-run",
+            "@lint",
+            "@sniff",
+            "@analyse",
+            "@test"
+        ],
+        "fix-style": "php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes",
+        "lint": "php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php --allow-risky=yes",
+        "normalize": "composer-normalize",
+        "sniff": "phpmd src text phpmd.xml.dist",
+        "test": "phpunit",
+        "test-coverage": "phpunit --coverage-clover build/logs/clover.xml"
     }
 }
