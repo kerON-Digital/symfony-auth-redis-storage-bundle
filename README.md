@@ -89,4 +89,4 @@ For detailed information, please refer to the `docs/` directory (you will need t
 
 ## License
 
-This bundle is released under the MIT License. See the LICENSE file for details (you should create this file too).
+This bundle is released under the MIT License. See the LICENSE file for details.
