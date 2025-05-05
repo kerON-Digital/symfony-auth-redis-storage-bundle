@@ -13,6 +13,9 @@ final class KeronDigitalAuthRedisStorageExtension extends Extension
 {
     private const REDIS_CLIENT_PARAM = 'keron_digital.redis_storage.redis_client_id';
 
+    /**
+     * {@inheritdoc}
+     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../config'));
@@ -25,16 +28,23 @@ final class KeronDigitalAuthRedisStorageExtension extends Extension
 
         $generalPrefix = $config['key_prefix'];
 
-        $blacklistPrefix = $generalPrefix . $config['blacklist']['key_suffix'];
+        $blacklistConfig = $config['blacklist'] ?? [];
+        $blacklistSuffix = $blacklistConfig['key_suffix'] ?? 'bl:';
+        $blacklistPrefix = $generalPrefix . $blacklistSuffix;
         $container->setParameter('keron_digital.redis_storage.blacklist.prefix', $blacklistPrefix);
 
-        $activePrefix = $generalPrefix . $config['active_token_storage']['key_suffix'];
-        $container->setParameter('keron_digital.redis_storage.active_storage.prefix', $activePrefix);
+        $activeStorageConfig = $config['active_token_storage'] ?? [];
+        $activeSuffix = $activeStorageConfig['key_suffix'] ?? 'active:';
+        $activePrefix = $generalPrefix . $activeSuffix;
+
+        $container->setParameter('keron_digital.redis_storage.active_token_storage.prefix', $activePrefix);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getAlias(): string
     {
         return 'keron_digital_auth_redis_storage';
     }
 }
-    
