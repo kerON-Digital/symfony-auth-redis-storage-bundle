@@ -1,0 +1,60 @@
+name: Bundle Quality Checks
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build_and_test:
+    name: Build and Test Bundle (PHP ${{ matrix.php-versions }})
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.1', '8.2', '8.3']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: redis, sockets, intl, zip, xml, bcmath, gd, pdo, pdo_mysql, pcov
+          coverage: pcov
+          tools: composer:v2
+
+      - name: Start services (Redis)
+        run: docker compose up -d redis
+
+      - name: "Validate composer files"
+        run: composer validate --strict
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --optimize-autoloader
+
+      - name: Check composer normalize
+        run: composer normalize --dry-run
+
+      - name: Composer Security Audit
+        run: composer audit
+
+      - name: Check Code Style (PHP CS Fixer)
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php --allow-risky=yes
+
+      - name: Run Code Sniffer (PHPMD)
+        run: vendor/bin/phpmd src text phpmd.xml.dist
+
+      - name: Run Static Analysis (PHPStan)
+        run: vendor/bin/phpstan analyse --error-format=github --no-progress
+
+      - name: Run Tests (PHPUnit) with Coverage
+        run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
