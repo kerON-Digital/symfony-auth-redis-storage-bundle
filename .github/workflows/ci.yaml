@@ -12,9 +12,7 @@ permissions:
 jobs:
   build_and_test:
     name: Build and Test Bundle (PHP ${{ matrix.php-versions }})
-
     runs-on: ubuntu-latest
-
     strategy:
       fail-fast: false
       matrix:
@@ -24,37 +22,46 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: redis, sockets, intl, zip, xml, bcmath, gd, pdo, pdo_mysql, pcov
-          coverage: pcov
-          tools: composer:v2
+      # 1. Build and Start ALL necessary services for testing
+      - name: Build and Start Docker Services
+        run: docker compose up -d --build bundle-dev redis
 
-      - name: Start services (Redis)
-        run: docker compose up -d redis
+      - name: Fix filesystem permissions and Git ownership
+        run: |
+          docker compose exec -T --user root bundle-dev sh -c "chown -R nonroot:nonroot /app"
+          docker compose exec -T bundle-dev git config --global --add safe.directory /app
 
+      # 2. Validate composer files
       - name: "Validate composer files"
-        run: composer validate --strict
+        run: docker compose exec -T bundle-dev composer validate --strict
 
+      # 3. Install Composer dependencies
       - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-progress --optimize-autoloader
+        run: docker compose exec -T bundle-dev composer install --prefer-dist --no-progress --optimize-autoloader
 
+      # 4. Check composer normalize
       - name: Check composer normalize
-        run: composer normalize --dry-run
+        run: docker compose exec -T bundle-dev composer normalize --dry-run
 
+      # 5. Composer Security Audit
       - name: Composer Security Audit
-        run: composer audit
+        run: docker compose exec -T bundle-dev composer audit
 
+      # 6. Check Code Style (PHP CS Fixer)
       - name: Check Code Style (PHP CS Fixer)
-        run: vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php --allow-risky=yes
+        run: docker compose exec -T bundle-dev vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php --allow-risky=yes
 
+      # 7. Run Code Sniffer (PHPMD)
       - name: Run Code Sniffer (PHPMD)
-        run: vendor/bin/phpmd src text phpmd.xml.dist
+        run: docker compose exec -T bundle-dev vendor/bin/phpmd src text phpmd.xml.dist
 
+      # 8. Run Static Analysis (PHPStan)
       - name: Run Static Analysis (PHPStan)
-        run: vendor/bin/phpstan analyse --error-format=github --no-progress
+        run: docker compose exec -T bundle-dev vendor/bin/phpstan analyse --error-format=github --no-progress
 
+      # 9. Run Tests (PHPUnit) with Coverage
+      - name: Create build directories inside container
+        run: docker compose exec -T bundle-dev mkdir -p build/logs build/coverage
+      # ---------------------------------------------------------
       - name: Run Tests (PHPUnit) with Coverage
-        run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        run: docker compose exec -T bundle-dev vendor/bin/phpunit --coverage-clover build/logs/clover.xml
