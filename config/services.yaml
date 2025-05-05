@@ -16,7 +16,7 @@ services:
   keron_digital.redis_storage.active_token_storage:
     class: KeronDigital\AuthRedisStorageBundle\Infrastructure\Persistence\RedisActiveTokenStorage
     arguments:
-      $keyPrefix: '%keron_digital.redis_storage.active_storage.prefix%'
+      $keyPrefix: '%keron_digital.redis_storage.active_token_storage.prefix%'
 
   KeronDigital\AuthRedisStorageBundle\Domain\Contract\ActiveTokenStorageInterface:
     alias: keron_digital.redis_storage.active_token_storage
