@@ -1,0 +1,24 @@
+# config/services.yaml
+services:
+  _defaults:
+    autowire: false
+    autoconfigure: false
+    public: false
+
+  keron_digital.redis_storage.blacklist:
+    class: KeronDigital\AuthRedisStorageBundle\Infrastructure\Persistence\RedisTokenBlacklist
+    arguments:
+      $redisClient: null
+      $keyPrefix: null
+  KeronDigital\AuthRedisStorageBundle\Domain\Contract\TokenBlacklistInterface:
+    alias: keron_digital.redis_storage.blacklist
+    public: true
+
+  keron_digital.redis_storage.active_token_storage:
+    class: KeronDigital\AuthRedisStorageBundle\Infrastructure\Persistence\RedisActiveTokenStorage
+    arguments:
+      $redisClient: null
+      $keyPrefix: null
+  KeronDigital\AuthRedisStorageBundle\Domain\Contract\ActiveTokenStorageInterface:
+    alias: keron_digital.redis_storage.active_token_storage
+    public: true
