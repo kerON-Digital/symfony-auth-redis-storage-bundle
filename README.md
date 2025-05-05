@@ -40,7 +40,7 @@ keron_digital_auth_redis_storage:
 
 The bundle uses default key prefixes (`auth:bl:` for blacklist, `auth:active:` for active tokens).
 
-*See [docs/configuration.md](docs/configuration.md) for details on customizing prefixes and other options.*
+*See [docs/configuration.md](docs/CONFIGURATION.md) for details on customizing prefixes and other options.*
 
 ### 3. Basic Usage
 
@@ -77,15 +77,15 @@ class TokenValidator
 }
 ```
 
-*See [docs/usage.md](docs/usage.md) for more examples on blacklisting, marking tokens active, checking active status, and revoking.*
+*See [docs/usage.md](docs/USAGE.md) for more examples on blacklisting, marking tokens active, checking active status, and revoking.*
 
 ## Documentation
 
-For detailed information, please refer to the `docs/` directory (you will need to create this):
+For detailed information, please refer to the `docs/` directory:
 
-* `docs/configuration.md`: Detailed configuration options.
-* `docs/usage.md`: Comprehensive usage examples.
-* `docs/testing.md`: Information on running the bundle's tests (for contributors).
+* `[configuration.md](docs/CONFIGURATION.md)`: Detailed configuration options.
+* `[usage.md](docs/USAGE.md)`: Comprehensive usage examples.
+* `[testing.md](docs/TESTING.md)`: Information on running the bundle's tests (for contributors).
 
 ## License
 
