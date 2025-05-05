@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace KeronDigital\AuthRedisStorageBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
 use function dirname;
+
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 final class KeronDigitalAuthRedisStorageBundle extends Bundle
 {

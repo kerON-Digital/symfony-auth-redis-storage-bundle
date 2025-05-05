@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace KeronDigital\AuthRedisStorageBundle\Tests\Integration\Infrastructure;
 
 use KeronDigital\AuthRedisStorageBundle\Tests\Fixtures\TestKernel;
+use Redis;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Redis;
 
 /**
  * Base class for integration tests requiring a real Redis connection.
@@ -26,7 +26,8 @@ abstract class RedisIntegrationTestCase extends KernelTestCase
 
         // Get the Redis client from the test container
         $redis = static::getContainer()->get('test.redis_client');
-        if (!$redis instanceof Redis) {
+
+        if (! $redis instanceof Redis) {
             throw new RuntimeException('Could not retrieve Redis client from test container.');
         }
         self::$redisClient = $redis;
@@ -50,6 +51,7 @@ abstract class RedisIntegrationTestCase extends KernelTestCase
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
+
         if (self::$redisClient instanceof Redis) {
             // self::$redisClient->close();
         }

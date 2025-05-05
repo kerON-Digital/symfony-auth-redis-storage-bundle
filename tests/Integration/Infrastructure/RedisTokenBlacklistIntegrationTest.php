@@ -20,7 +20,8 @@ final class RedisTokenBlacklistIntegrationTest extends RedisIntegrationTestCase
     {
         parent::setUp();
         $service = static::getContainer()->get(TokenBlacklistInterface::class);
-        if (!$service instanceof TokenBlacklistInterface) {
+
+        if (! $service instanceof TokenBlacklistInterface) {
             $this->fail('Could not retrieve TokenBlacklistInterface service from container.');
         }
         $this->blacklistService = $service;
@@ -104,7 +105,7 @@ final class RedisTokenBlacklistIntegrationTest extends RedisIntegrationTestCase
         sleep($ttl + 1);
 
         // Act & Assert
-        $this->assertFalse($this->blacklistService->isBlacklisted($tokenId), "Expired key should not be considered blacklisted.");
-        $this->assertSame(0, self::$redisClient->exists($key), "Redis key should not exist after expiry.");
+        $this->assertFalse($this->blacklistService->isBlacklisted($tokenId), 'Expired key should not be considered blacklisted.');
+        $this->assertSame(0, self::$redisClient->exists($key), 'Redis key should not exist after expiry.');
     }
 }

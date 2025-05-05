@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace KeronDigital\AuthRedisStorageBundle\Tests\Fixtures;
 
-use KeronDigital\AuthRedisStorageBundle\KeronDigitalAuthRedisStorageBundle;
 use KeronDigital\AuthRedisStorageBundle\Infrastructure\DependencyInjection\KeronDigitalAuthRedisStorageExtension;
+use KeronDigital\AuthRedisStorageBundle\KeronDigitalAuthRedisStorageBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
