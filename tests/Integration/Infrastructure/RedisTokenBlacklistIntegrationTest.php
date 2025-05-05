@@ -35,12 +35,11 @@ final class RedisTokenBlacklistIntegrationTest extends RedisIntegrationTestCase
 
         $this->assertSame(0, self::$redisClient->exists($expectedKey), "Key $expectedKey should not exist before blacklisting.");
 
-
         // Act
         $this->blacklistService->blacklist($tokenId, $ttl);
 
         // Assert
-        $this->assertTrue(self::$redisClient->exists($expectedKey) > 0, "Key $expectedKey should exist after blacklisting.");
+        $this->assertSame(1, self::$redisClient->exists($expectedKey), "Key {$expectedKey} should exist after blacklisting.");
         $actualTtl = self::$redisClient->ttl($expectedKey);
         $this->assertGreaterThan(0, $actualTtl, "Key $expectedKey should have a positive TTL.");
         $this->assertLessThanOrEqual($ttl, $actualTtl, "Key $expectedKey TTL should be less than or equal to the requested TTL.");

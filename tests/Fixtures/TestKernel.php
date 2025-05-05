@@ -32,24 +32,6 @@ class TestKernel extends Kernel
         $container->registerExtension(new KeronDigitalAuthRedisStorageExtension());
     }
 
-    private function configureContainer(ContainerConfigurator $container, LoaderInterface $loader, ContainerBuilder $builder): void
-    {
-        $configDir = $this->getProjectDir().'/tests/Fixtures/config';
-
-        $container->import($configDir.'/{packages}/framework.yaml');
-        $container->import($configDir.'/{services}.yaml');
-        $container->import($configDir.'/{packages}/keron_digital_auth_redis_storage.yaml');
-
-
-        $container->extension('framework', [
-            'test' => true,
-            'secret' => 'test_secret',
-            'router' => ['utf8' => true],
-            'cache' => ['app' => 'cache.adapter.filesystem'],
-            'session' => ['storage_factory_id' => 'session.storage.factory.mock_file'],
-        ]);
-    }
-
     /**
      * Configure routes. Needed even if empty for the kernel to boot.
      */
