@@ -1,0 +1,41 @@
+{
+    "name": "keron-digital/auth-redis-storage-bundle",
+    "description": "Bundle to manage storage of authentication tokens (refresh, etc.) in Redis for Symfony applications.",
+    "license": "MIT",
+    "type": "symfony-bundle",
+    "require": {
+        "php": ">=8.1",
+        "ext-redis": "*",
+        "symfony/config": "^6.4",
+        "symfony/dependency-injection": "^6.4",
+        "symfony/framework-bundle": "^6.4",
+        "symfony/http-kernel": "^6.4",
+        "symfony/yaml": "^6.4"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.47",
+        "friendsofphp/php-cs-fixer": "^3.75",
+        "phpmd/phpmd": "^2.15",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/phpstan-symfony": "^2.0",
+        "phpunit/phpunit": "^10.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "KeronDigital\\AuthRedisStorageBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "KeronDigital\\AuthRedisStorageBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "phpstan/extension-installer": true
+        }
+    }
+}

@@ -1,0 +1,63 @@
+# === Dependencies ===
+# Composer dependencies
+/vendor/
+
+# === Logs & Cache ===
+# Symfony cache and log directories (if created during testing or development)
+/var/cache/
+/var/log/
+
+# === Build Artifacts ===
+# Directory for build reports (coverage, metrics, etc.)
+/build/
+
+# === Local Environment ===
+# Local environment variables (less common for bundles, but good practice)
+.env.local
+.env.*.local
+
+# === IDE / Editor Files ===
+# PHPStorm
+.idea/
+# VS Code
+.vscode/
+# NetBeans
+/nbproject/
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+# Atom
+.atom/
+
+# === OS Generated Files ===
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+# Thumbnails
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+# Linux / Other
+*~
+.#*
+*.swp
+*.swo
+
+# === Tooling Cache / Logs ===
+# PHPUnit cache
+.phpunit.cache/
+# PHP CS Fixer cache
+.php-cs-fixer.cache
+
+# === Docker (Optional) ===
+# If you have specific docker ignore patterns or local overrides
+# .dockerignore (usually committed, but listed for completeness)
+# docker-compose.override.yml
+
+# === Other ===
+# Symfony secrets (if using secrets management, less common in bundles)
+config/secrets/dev/
+config/secrets/test/
+# PHP Server Log (if running built-in server locally)
+*.log
