@@ -4,3 +4,7 @@ parameters:
         - src
         - tests
     symfony:
+    ignoreErrors:
+    -
+        message: '#^Method KeronDigital\\AuthRedisStorageBundle\\Tests\\Fixtures\\TestKernel::configureContainer\(\) is unused\.$#'
+        path: tests/Fixtures/TestKernel.php
