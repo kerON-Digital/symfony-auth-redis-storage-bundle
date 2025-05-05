@@ -1,0 +1,2 @@
+keron_digital_auth_redis_storage:
+  redis_client_service_id: 'test.redis_client'

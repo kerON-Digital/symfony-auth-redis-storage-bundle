@@ -1,0 +1,14 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  test.redis_client:
+    class: Redis
+    public: true
+    calls:
+      - method: connect
+        arguments:
+          - 'redis'
+          - '6379'
