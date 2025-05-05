@@ -1,0 +1,25 @@
+services:
+  bundle-dev:
+    build:
+      context: ./docker
+      args:
+        USER_ID: ${UID:-1000}
+        GROUP_ID: ${GID:-1000}
+    container_name: keron_auth_bundle_dev
+    volumes:
+       - .:/app:cached
+    working_dir: /app
+    command: sleep infinity
+    networks:
+      - keron_auth_network
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: keron_auth_bundle_redis
+    command: redis-server --save "" --appendonly no
+    networks:
+      - keron_auth_network
+
+networks:
+  keron_auth_network:
+    driver: bridge
